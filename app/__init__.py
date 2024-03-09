@@ -43,7 +43,7 @@ def init_app(name, config=None):
     )
     app = Flask(name)
     app.config.from_object(config)
-    # db.init_app(app)
+    db.init_app(app)
     api.init_app(app)
     CORS(app)
     sieve.init_app(app)
