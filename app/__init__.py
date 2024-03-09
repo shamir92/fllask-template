@@ -7,6 +7,7 @@ from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_sieve import Sieve
 from logging.config import dictConfig
+from .apis.student import studentApp
 
 # Create package object.
 db = SQLAlchemy()
@@ -48,4 +49,10 @@ def init_app(name, config=None):
     CORS(app)
     sieve.init_app(app)
     
+
+
+
+
+    app.register_blueprint(studentApp)
+
     return app
