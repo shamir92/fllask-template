@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: rcs-rebuild-dev
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: game2048-svc
+  namespace: rcs-rebuild-dev
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: game2048
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: game2048
+  namespace: rcs-rebuild-dev
+spec:
+  selector:
+    matchLabels:
+      app: game2048
+  template:
+    metadata:
+      labels:
+        app: game2048
+    spec:
+      containers:
+      - image: alekseykudr/game2048:v1.2
+        imagePullPolicy: Always
+        name: game2048
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 1m
+            memory: 1Mi
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: game2048-ingress
+  namespace: rcs-rebuild-dev
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: game2048.shamirhusein.my.id
+    http:
+      paths:
+      - backend:
+          service:
+            name: game2048-svc
+            port:
+              number: 80
+        path: /
+        pathType: Prefix

@@ -1,0 +1,7 @@
+apiVersion: v1
+data: 
+  GIN_PORT: ":8080"
+  
+kind: ConfigMap
+metadata: 
+  name: game2048-config

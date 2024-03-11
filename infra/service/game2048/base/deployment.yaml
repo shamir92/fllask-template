@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: game2048
+spec:
+  selector:
+    matchLabels:
+      app: game2048
+  template:
+    metadata:
+      labels:
+        app: game2048
+    spec:
+      containers:
+      - name: game2048
+        image: alekseykudr/game2048:v1.2
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "1Mi"
+            cpu: "1m"
+          limits:
+            memory: "500Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+        # livenessProbe:
+        #   httpGet:
+        #     path: "/v1/ping"
+        #     port: 8080
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 30
+        # readinessProbe:
+        #   httpGet:
+        #     path: "/v1/ping"
+        #     port: 8080
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 30
+      # imagePullSecrets:
+      #   - name: melissa-hol-group
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: game2048-svc
+spec:
+  selector:
+    app: game2048
+  ports:
+  - port: 80
+    targetPort: 8080

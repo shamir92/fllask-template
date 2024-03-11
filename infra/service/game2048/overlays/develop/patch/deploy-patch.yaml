@@ -1,0 +1,11 @@
+- op: add
+  path: /spec/template/spec/containers/0/envFrom
+  value:
+    - configMapRef:
+        name: game2048-config
+    - secretRef:
+        name: game2048-secret
+# - op: add
+#   path: /spec/template/spec/nodeSelector
+#   value:
+#     Owner: RCSRebuild
